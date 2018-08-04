@@ -2,6 +2,8 @@
 
 <img src="logo.png" width="256" height="256" />
 
+------
+
 Nececity is a city emulator software written in Rust.
 
 In it, you can create modern cities with your friends and family, and
@@ -13,7 +15,7 @@ paradise or a summer dreamland!
 
 The game will be also playable in servers within the Internet.
 
-## Gameplay
+# Gameplay
 
 The primary difference is that, unlike other genres, you don't need to
 have *everything* in your city, because, in real cities, you don't.
@@ -30,11 +32,15 @@ move from your city. Otherwise, it will.
 Also, you will be able to rent certain services from other cities,
 like water treatment, energy and the like. As a consequence, those
 services will be proportionally more expensive than other games of
-same genre 
+same genre.
 
-## Engine details
+You will begin with some money and a terrain of a certain size. You
+can earn money by making the value that you earn from taxation be
+bigger than the cost of buildings
 
-### Individual
+# Engine details
+
+## Individual
 
 It all starts with the individual
 
@@ -46,14 +52,24 @@ The individual will also have a sex and an age.
 It also will have an intelligence level (affects how fast it
 learns, and how much), a beauty level (affects how faster it
 can find a partner), a speak level (affects how famous it can
-be). Those parameters will be created randomically on the first
+be) and a health level (affect how hard it is for you to get a
+disease). Those parameters will be created randomically on the first
 generation, but will depend on the parents and grandparents for the
 next ones.
 
 It has, also, satisfaction levels for knowledge, health, neighborhood,
 safety, air quality and entertainment.
 
-### Family
+When the individual reach a certain age, it can leave its home, only
+for marriage and universities (or any other high instructional level
+education places). On some holidays they will visit his family, then
+her family, then his family... until the parents die.
+
+People die within 50-110 years of live, depending on the wealth,
+intelligence and health levels.
+
+
+## Family
 
 Then, we have a family. A family, in the game, has a man, a woman and
 zero or more kids, of random genders.
@@ -96,7 +112,7 @@ will decrease.
 The satisfaction levels that can affect something are the levels of
 each family: the average value of satisfaction of each member
 
-### Places
+## Places
 
 The places are, well, places where individuals meet. The standards
 (like wealth, safety, intelligence) of every people will update when
@@ -129,7 +145,7 @@ but, in entertainment places, families meet, and the family attributes
 are compared.
 
 
-### Dating and marriage
+## Dating and marriage
 
 When someone is more than 16 years old, is time to start
 dating. In the game, people usually date with school colleagues,
@@ -163,7 +179,7 @@ wealth. The number of children depends on the intelligence and beauty
 level of the couple: intelligence decrease the quantity, beauty
 increase.
 
-### City
+## City
 
 Here is where the player works: at city level.
 
@@ -199,9 +215,18 @@ However, the other city that will make the price. The minimal price is
 the cost price, and the maximum depends on your neighbor. (The game
 will have a chat, *soooo* both can negotiate this)
 
+You can also sell those services from the cities you ask. Note that
+you can sell only for immediate neighbors, and neighbors of those you
+bought the energy from, so you need to do some planning, and in-game
+conversation.
+
+> The "virtual cities" group will have one city that sells energy, one
+> that sells water and other that sells trash treatment. Other cities
+> will buy from them, but, when you start selling one of those, the
+> cities will start buying from you.
 
 
-## Network
+# Network
 
 The game will be playable locally, within a LAN or with the Internet.
 
@@ -214,12 +239,12 @@ with a LAN, the game server will generate "virtual cities", so that
 you can focus in your area without needing to fullfill every need of
 your citizens (they can go elsewhere, as long as they live in *your* city)
 
-## Technologies
+# Technologies
 
  - The graphic API will be Vulkan
 
 
-## License
+# License
 
 This game is licensed under the MIT license.
 
