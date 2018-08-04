@@ -51,7 +51,7 @@ generation, but will depend on the parents and grandparents for the
 next ones.
 
 It has, also, satisfaction levels for knowledge, health, neighborhood,
-safety and entertainment.
+safety, air quality and entertainment.
 
 ### Family
 
@@ -162,6 +162,44 @@ People usually have children within 1-5 year of marriage, depending on
 wealth. The number of children depends on the intelligence and beauty
 level of the couple: intelligence decrease the quantity, beauty
 increase.
+
+### City
+
+Here is where the player works: at city level.
+
+The city is where the individuals live, families live and places are
+located. The player is the mayor of the city. 
+
+It can build constructions, control taxes, commercialize with other
+cities (e.g, by buying/selling energy, water etc.)
+
+If you increase taxes too much, families will not like: people usually
+complain when the government raises taxes too much. 
+
+Also, it can decrease the family own wealth. Families like to preserve
+the wealth if they can't increase it, so, if the family can't preserve
+its wealth too long, they will move to a neighbor city.
+
+Construction building is good, but take care! Some industries can
+increase pollution, thus decreasing the air quality and making
+citizens complain. Also, an individual doesn't like much when you
+destroy its house, or make a construction site near his house to build
+something.
+
+> Building of commerce, industry and residence is done like most of
+> simulation games do: with zones.
+
+You can buy energy, water or trash treatment from other cities,
+because, e.g individuals won't like a powerful power plant too near
+their houses (maybe less powerful ones, like the wind ones, but they
+aren't too strong) because of the sound or pollution, and they are
+expensive.
+
+However, the other city that will make the price. The minimal price is
+the cost price, and the maximum depends on your neighbor. (The game
+will have a chat, *soooo* both can negotiate this)
+
+
 
 ## Network
 
