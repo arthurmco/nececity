@@ -185,3 +185,4 @@ your citizens (they can go elsewhere, as long as they live in *your* city)
 
 This game is licensed under the MIT license.
 
+(C) 2018 Arthur Mendes
