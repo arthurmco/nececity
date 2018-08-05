@@ -7,7 +7,7 @@
 ///
 /// A person specialized some area will need a job for that area.
 /// If it can't find for a period of time, it will move out of your city.
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum WorkingArea {
     Education,
     Health,
@@ -23,9 +23,12 @@ pub enum WorkingArea {
 ///
 /// The idea is that a job of some instruction level needs a person of the same or higher
 /// level
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum InstructionLevel {
-    /// Basic instruction level. No school required
+    /// No instruction. Babies and young children fall here
+    None,
+
+    /// Basic instruction level. No school required, but you need to have at least 6 years
     Basic,
 
     /// Intermediate instruction level. Only basic school required
