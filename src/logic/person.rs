@@ -11,6 +11,23 @@ enum Gender {
     Female,
 }
 
+/// Store person attributes
+///
+/// Store person attributes. Those attributes can go from 1 to 255
+struct PersonAttributes {
+    /// Intelligence level (affects how fast the person learns, and how much)
+    intelligence: u8,
+
+    /// Beauty level (affects how faster the person can find a partner)
+    beauty: u8,
+
+    /// Speak level (affects how famous the person can be, and how fast you get a job)
+    speak: u8,
+
+    /// Health level (affect how hard it is for the person to get a disease)
+    health: u8,
+}
+
 /// An individual
 pub struct Person {
     /// The person's name. Irrelevant, but might show in the news.
@@ -30,11 +47,19 @@ pub struct Person {
 
     /// Area that the person currently works in. Can be none, too.
     working_area: Option<WorkingArea>,
+
+    /// Person attributes
+    attributes: PersonAttributes,
 }
 
 impl Person {
     /// Creates a new person, with zero days of life. A baby, pratically
-    fn new(name: &str, gender: Gender, wished_area: WorkingArea) -> Person {
+    fn new(
+        name: &str,
+        gender: Gender,
+        wished_area: WorkingArea,
+        attributes: PersonAttributes,
+    ) -> Person {
         Person {
             name: String::from(name),
             age: 0,
@@ -42,6 +67,7 @@ impl Person {
             instruction_level: InstructionLevel::None,
             wished_area,
             working_area: None,
+            attributes,
         }
     }
 
@@ -50,6 +76,7 @@ impl Person {
         name: &str,
         gender: Gender,
         wished_area: WorkingArea,
+        attributes: PersonAttributes,
         age: u64,
         instruction_level: InstructionLevel,
     ) -> Person {
@@ -60,6 +87,7 @@ impl Person {
             instruction_level,
             wished_area,
             working_area: None,
+            attributes,
         }
     }
 
@@ -68,7 +96,7 @@ impl Person {
     ///
     /// The 'tick' parameter is the tick number we are currently in
     fn iterate(&mut self, tick: u64) {
-        // Change the age.
+        // Change the person age.
         self.age = tick_to_day_number(tick);
     }
 }
@@ -90,7 +118,17 @@ mod tests {
 
     #[test]
     fn test_person_creates_ok() {
-        let p_test = Person::new("Test", Gender::Male, WorkingArea::Construction);
+        let p_test = Person::new(
+            "Test",
+            Gender::Male,
+            WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 0,
+            },
+        );
         assert_eq!("Test", p_test.name);
         assert_eq!(0, p_test.age);
         assert_eq!(Gender::Male, p_test.gender);
@@ -105,6 +143,12 @@ mod tests {
             "Test2",
             Gender::Female,
             WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 0,
+            },
             1000,
             InstructionLevel::Advanced,
         );
@@ -118,7 +162,17 @@ mod tests {
 
     #[test]
     fn test_person_passes_a_day() {
-        let mut p_test = Person::new("Test", Gender::Male, WorkingArea::Construction);
+        let mut p_test = Person::new(
+            "Test",
+            Gender::Male,
+            WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 0,
+            },
+        );
         assert_eq!(0, p_test.age);
 
         for i in 0..(day_to_tick_number(1) + 1) {
@@ -130,7 +184,17 @@ mod tests {
 
     #[test]
     fn test_person_passes_a_month() {
-        let mut p_test = Person::new("Test", Gender::Male, WorkingArea::Construction);
+        let mut p_test = Person::new(
+            "Test",
+            Gender::Male,
+            WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 0,
+            },
+        );
         assert_eq!(0, p_test.age);
 
         for i in 0..(day_to_tick_number(30) + 1) {
@@ -142,7 +206,17 @@ mod tests {
 
     #[test]
     fn test_person_passes_a_year() {
-        let mut p_test = Person::new("Test", Gender::Male, WorkingArea::Construction);
+        let mut p_test = Person::new(
+            "Test",
+            Gender::Male,
+            WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 0,
+            },
+        );
         assert_eq!(0, p_test.age);
 
         for i in 0..(day_to_tick_number(365) + 1) {
