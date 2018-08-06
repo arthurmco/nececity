@@ -50,6 +50,9 @@ pub struct Person {
 
     /// Person attributes
     attributes: PersonAttributes,
+
+    /// Alive or dead?
+    _is_alive: bool,
 }
 
 impl Person {
@@ -68,6 +71,7 @@ impl Person {
             wished_area,
             working_area: None,
             attributes,
+            _is_alive: true,
         }
     }
 
@@ -88,7 +92,13 @@ impl Person {
             wished_area,
             working_area: None,
             attributes,
+            _is_alive: true,
         }
+    }
+
+    /// Check if the person is alive or not
+    fn is_alive(&self) -> bool {
+        self._is_alive
     }
 
     /// Process one engine tick for this person
@@ -98,6 +108,27 @@ impl Person {
     fn iterate(&mut self, tick: u64) {
         // Change the person age.
         self.age = tick_to_day_number(tick);
+
+        const MAX_LIFE_YEARS: u64 = 110;
+        // Death age is proportional to the health levels
+        // More bigger the health levels are, less chance the person has of getting
+        // sick
+        // Like the real world, when you are too sick, you die.
+        // And you die of old age too. In this world, when you make 110 years
+        //
+        // People start dying with 50 years.
+        // TODO: Make this value dependant on the city?
+        if self.age >= 50 * 365 {
+            let health = self.attributes.health;
+            if self.age
+                >= (50.0 + (((health as f64) / 255.0) * (MAX_LIFE_YEARS - 50) as f64)) as u64 * 365
+            {
+                if self._is_alive {
+                    println!("Died with {} years", (self.age as f64) / 365.0);
+                }
+                self._is_alive = false;
+            }
+        }
     }
 }
 
@@ -224,5 +255,135 @@ mod tests {
         }
 
         assert_eq!(365, p_test.age);
+    }
+
+    #[test]
+    fn test_person_too_old_to_keep_living() {
+        let mut p_test = Person::new(
+            "Test",
+            Gender::Male,
+            WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 255,
+            },
+        );
+
+        for i in 0..(day_to_tick_number(365 * 110) + 1) {
+            p_test.iterate(i);
+        }
+
+        assert_eq!(false, p_test.is_alive());
+    }
+
+    #[test]
+    fn test_person_start_of_death_date() {
+        let mut p_test = Person::new(
+            "Test",
+            Gender::Male,
+            WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 255,
+            },
+        );
+
+        for i in 0..(day_to_tick_number(365 * 50) + 1) {
+            p_test.iterate(i);
+        }
+
+        assert_eq!(true, p_test.is_alive());
+    }
+
+    #[test]
+    fn test_person_low_health_level() {
+        let mut p_test = Person::new(
+            "Test",
+            Gender::Male,
+            WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 10,
+            },
+        );
+
+        // People with low health levels should die soon
+        for i in 0..(day_to_tick_number(365 * 55) + 1) {
+            p_test.iterate(i);
+        }
+
+        assert_eq!(false, p_test.is_alive());
+    }
+
+    #[test]
+    fn test_person_high_health_level() {
+        let mut p_test = Person::new(
+            "Test",
+            Gender::Male,
+            WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 90,
+            },
+        );
+
+        // People with high health levels should not die soon
+        for i in 0..(day_to_tick_number(365 * 70) + 1) {
+            p_test.iterate(i);
+        }
+
+        assert_eq!(true, p_test.is_alive());
+    }
+
+    #[test]
+    fn test_person_high_health_but_not_enough_level() {
+        let mut p_test = Person::new(
+            "Test",
+            Gender::Male,
+            WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 90,
+            },
+        );
+
+        // People with high health levels should not die soon
+        for i in 0..(day_to_tick_number(365 * 95) + 1) {
+            p_test.iterate(i);
+        }
+
+        assert_eq!(false, p_test.is_alive());
+    }
+
+    #[test]
+    fn test_person_very_high_health_level() {
+        let mut p_test = Person::new(
+            "Test",
+            Gender::Male,
+            WorkingArea::Construction,
+            PersonAttributes {
+                intelligence: 0,
+                beauty: 0,
+                speak: 0,
+                health: 212,
+            },
+        );
+
+        // People with high health levels should not die soon
+        for i in 0..(day_to_tick_number(365 * 95) + 1) {
+            p_test.iterate(i);
+        }
+
+        assert_eq!(true, p_test.is_alive());
     }
 }
