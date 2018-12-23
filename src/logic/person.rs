@@ -6,7 +6,7 @@ use super::{InstructionLevel, WorkingArea};
 
 /// Person gender
 #[derive(Debug, PartialEq)]
-enum Gender {
+pub enum Gender {
     Male,
     Female,
 }
@@ -14,7 +14,7 @@ enum Gender {
 /// Store person attributes
 ///
 /// Store person attributes. Those attributes can go from 1 to 255
-struct PersonAttributes {
+pub struct PersonAttributes {
     /// Intelligence level (affects how fast the person learns, and how much)
     intelligence: u8,
 
@@ -57,7 +57,7 @@ pub struct Person {
 
 impl Person {
     /// Creates a new person, with zero days of life. A baby, pratically
-    fn new(
+    pub fn new(
         name: &str,
         gender: Gender,
         wished_area: WorkingArea,
@@ -76,7 +76,7 @@ impl Person {
     }
 
     /// Creates a new person, with a specified age and instruction level
-    fn new_with_age(
+    pub fn new_with_age(
         name: &str,
         gender: Gender,
         wished_area: WorkingArea,
@@ -123,9 +123,6 @@ impl Person {
             if self.age
                 >= (50.0 + (((health as f64) / 255.0) * (MAX_LIFE_YEARS - 50) as f64)) as u64 * 365
             {
-                if self._is_alive {
-                    println!("Died with {} years", (self.age as f64) / 365.0);
-                }
                 self._is_alive = false;
             }
         }

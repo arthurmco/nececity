@@ -48,3 +48,4 @@ pub enum InstructionLevel {
 
 
 pub mod person;
+pub mod family;
