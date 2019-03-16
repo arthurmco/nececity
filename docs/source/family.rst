@@ -15,7 +15,7 @@ zero or more kids, of random genders.
 
 Each kid will have a predisposition to a profession, that will last
 until it completes 18, the time where it becomes the kid -- now, a
-teen -- profession.
+teenager -- profession.
 
 This predisposed profession will depend on the family wealth. If the
 family is wealthy, the kid will mostly choose the profession of one of
