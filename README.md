@@ -1,4 +1,6 @@
 # Nececity
+[![Build
+Status](https://travis-ci.org/arthurmco/nececity.svg?branch=master)](https://travis-ci.org/arthurmco/nececity)
 
 <img src="logo.png" width="256" height="256" />
 
@@ -15,6 +17,7 @@ paradise or a summer dreamland!
 
 The game will be also playable in servers within the Internet.
 
+For more information, see the documentation in the docs/ folder
 
 # Technologies
 
