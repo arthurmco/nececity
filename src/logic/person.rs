@@ -3,7 +3,7 @@
  */
 
 use super::{InstructionLevel, WorkingArea};
-use logic::family::Family;
+use logic::family::{Family, FamilyID};
 use std;
 use std::collections::HashMap;
 
@@ -69,10 +69,10 @@ pub struct Person {
     _is_alive: bool,
 
     /// Original family (the one with its father and mother
-    pub original_family: std::rc::Weak<Family>,
+    pub original_family: Option<FamilyID>,
 
     /// Actual family where it lives in
-    pub actual_family: std::rc::Weak<Family>,
+    pub actual_family: Option<FamilyID>,
 }
 
 impl Person {
@@ -93,8 +93,8 @@ impl Person {
             working_area: None,
             attributes,
             _is_alive: true,
-            original_family: std::rc::Weak::new(),
-            actual_family: std::rc::Weak::new(),
+            original_family: None,
+            actual_family: None,
         }
     }
 
@@ -117,14 +117,24 @@ impl Person {
             working_area: None,
             attributes,
             _is_alive: true,
-            original_family: std::rc::Weak::new(),
-            actual_family: std::rc::Weak::new(),
+            original_family: None,
+            actual_family: None,
         }
     }
 
     /// Check if the person is alive or not
     fn is_alive(&self) -> bool {
         self._is_alive
+    }
+
+    /// Update original family
+    pub fn update_original_family(&mut self, f: FamilyID) {
+        self.original_family = Some(f);
+    }
+
+    /// Update original family
+    pub fn update_actual_family(&mut self, f: FamilyID) {
+        self.actual_family = Some(f);
     }
 
     /// Process one engine tick for this person

@@ -4,3 +4,6 @@ version = "0.1.0"
 authors = ["Arthur Mendes <arthurmco@gmail.com>"]
 
 [dependencies]
+
+[dev-dependencies]
+matches = "0.1.8"
