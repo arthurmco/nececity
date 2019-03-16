@@ -2,7 +2,6 @@
  * The logic part of our game
  *
  */
-
 /// Working areas of each person and place.
 ///
 /// A person specialized some area will need a job for that area.

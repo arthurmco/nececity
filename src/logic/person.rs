@@ -3,6 +3,9 @@
  */
 
 use super::{InstructionLevel, WorkingArea};
+use logic::family::Family;
+use std;
+use std::collections::HashMap;
 
 /// Person gender
 #[derive(Debug, PartialEq)]
@@ -13,25 +16,36 @@ pub enum Gender {
 
 /// Store person attributes
 ///
-/// Store person attributes. Those attributes can go from 1 to 255
+/// Those attributes can go from 1 to 255
+/// This will be treated like a C plain old data type: just a bunch of
+/// aggregated values. Because of this, we'll implement the copy and
+/// clone traits
+#[derive(Debug, Copy, Clone)]
 pub struct PersonAttributes {
     /// Intelligence level (affects how fast the person learns, and how much)
-    intelligence: u8,
+    pub intelligence: u8,
 
     /// Beauty level (affects how faster the person can find a partner)
-    beauty: u8,
+    pub beauty: u8,
 
     /// Speak level (affects how famous the person can be, and how fast you get a job)
-    speak: u8,
+    pub speak: u8,
 
     /// Health level (affect how hard it is for the person to get a disease)
-    health: u8,
+    pub health: u8,
 }
 
+pub type PersonID = usize;
+
 /// An individual
+#[derive(Debug)]
 pub struct Person {
+    /// The person ID.
+    /// Some(...) if the value is in a list, None if it is not
+    pub id: Option<PersonID>,
+
     /// The person's name. Irrelevant, but might show in the news.
-    name: String,
+    pub name: String,
 
     /// Person age, in days.
     age: u64,
@@ -53,6 +67,12 @@ pub struct Person {
 
     /// Alive or dead?
     _is_alive: bool,
+
+    /// Original family (the one with its father and mother
+    pub original_family: std::rc::Weak<Family>,
+
+    /// Actual family where it lives in
+    pub actual_family: std::rc::Weak<Family>,
 }
 
 impl Person {
@@ -64,6 +84,7 @@ impl Person {
         attributes: PersonAttributes,
     ) -> Person {
         Person {
+            id: None,
             name: String::from(name),
             age: 0,
             gender,
@@ -72,6 +93,8 @@ impl Person {
             working_area: None,
             attributes,
             _is_alive: true,
+            original_family: std::rc::Weak::new(),
+            actual_family: std::rc::Weak::new(),
         }
     }
 
@@ -85,6 +108,7 @@ impl Person {
         instruction_level: InstructionLevel,
     ) -> Person {
         Person {
+            id: None,
             name: String::from(name),
             age,
             gender,
@@ -93,6 +117,8 @@ impl Person {
             working_area: None,
             attributes,
             _is_alive: true,
+            original_family: std::rc::Weak::new(),
+            actual_family: std::rc::Weak::new(),
         }
     }
 
@@ -137,6 +163,36 @@ fn tick_to_day_number(tick: u64) -> u64 {
 /// Convert day number to tick number, in integer
 fn day_to_tick_number(day: u64) -> u64 {
     day * 1440
+}
+
+/// A centralized list of persons
+pub struct PersonList {
+    pub items: HashMap<PersonID, Person>,
+    last_id: PersonID,
+}
+
+impl PersonList {
+    pub fn new() -> PersonList {
+        PersonList {
+            items: HashMap::new(),
+            last_id: 0,
+        }
+    }
+
+    /// Add a person to the list. Returns an ID
+    ///
+    /// Note that the owner loses ownership to the person.
+    /// It should now access it only through the list
+    pub fn register(&mut self, p: Person) -> usize {
+        let id = self.last_id + 1;
+
+        let person = Person { id: Some(id), ..p };
+        self.items.insert(id, person);
+
+        self.last_id = id;
+
+        id
+    }
 }
 
 #[cfg(test)]
